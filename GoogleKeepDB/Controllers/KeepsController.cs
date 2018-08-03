@@ -61,6 +61,110 @@ namespace GoogleKeepDB.Controllers
             return Ok(keep);
         }
 
+        // GETBylabel: api/keep/label/{label}
+        [HttpGet("label/{label}")]
+        public IActionResult GetKeepByLabel([FromRoute] string label)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var keep = _context.Keep.Include(x => x.checklist).ToList();
+
+            List<Keep> _keep = new List<Keep>();
+
+            foreach(var p in keep)
+            {
+                if(p.label == label)
+                {
+                    _keep.Add(p);
+                }
+            }
+            if(_keep.Count() == 0)
+            {
+                return NotFound("label does not exist");
+            }
+            else
+                return Ok(_keep);
+        }
+
+        // GETBytitle: api/keep/title/{title}
+        [HttpGet("title/{title}")]
+        public IActionResult GetKeepByTitle([FromRoute] string title)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var keep = _context.Keep.Include(x => x.checklist).ToList();
+
+            List<Keep> _keep = new List<Keep>();
+
+            foreach (var p in keep)
+            {
+                if (p.title == title)
+                {
+                    _keep.Add(p);
+                }
+            }
+            if (_keep.Count() == 0)
+            {
+                return NotFound("title does not exist");
+            }
+            else
+                return Ok(_keep);
+        }
+
+        // GETBypinned: api/keep/ispinned/{ispinned}
+        [HttpGet("ispinned/{ispinned}")]
+        public IActionResult GetKeepByIsPinned([FromRoute] bool ispinned)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var keep = _context.Keep.Include(x => x.checklist).ToList();
+
+            List<Keep> _keep = new List<Keep>();
+
+            foreach (var p in keep)
+            {
+                if (p.isPinned == ispinned)
+                {
+                    _keep.Add(p);
+                }
+            }
+            if (_keep.Count() == 0)
+            {
+                return NotFound("label does not exist");
+            }
+            else
+                return Ok(_keep);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteKeep(/*[FromRoute] */int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var keep = await _context.Keep.Include(x => x.checklist).FirstOrDefaultAsync(x => x.keepID == id);
+            if (keep == null)
+            {
+                return NotFound();
+            }
+
+            _context.Keep.Remove(keep);
+            await _context.SaveChangesAsync();
+
+            return Ok(keep);
+        }
+
         // PUTByID: api/Keeps/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutKeepByID([FromRoute] int id, [FromBody] Keep keep)
@@ -75,7 +179,9 @@ namespace GoogleKeepDB.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(keep).State = EntityState.Modified;
+            _context.Keep.Update(keep); // dafq man!! - updates the field as well as the state of the keep entity. No need to explicitly write EntityState.Modified
+
+            // _context.Entry(keep).State = EntityState.Modified;
 
             try
             {
@@ -93,46 +199,9 @@ namespace GoogleKeepDB.Controllers
                 }
             }
 
-            return Ok("Updated");
-        }
-
-        // DELETE: api/keeps
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete([FromRoute] int id)
-        //{
-        //    var Note = _context.Keep.Where(p => p.keepID == id);
-
-        //    if (Note == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    //_context.Keep.Remove(Note);
-        //    foreach (var item in Note)
-        //    {
-        //        _context.Keep.Remove(item);
-        //    }
-        //    return Ok(Note);
-        //} 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteKeep(/*[FromRoute] */int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var keep = await _context.Keep.FindAsync(id);
-            if (keep == null)
-            {
-                return NotFound();
-            }
-
-            _context.Keep.Remove(keep);
-            await _context.SaveChangesAsync();
-
             return Ok(keep);
         }
+
 
         private bool KeepExists(int id)
         {
