@@ -22,9 +22,9 @@ namespace GoogleKeepDB.Controllers
         
         // GET: api/keep
         [HttpGet]
-        public IEnumerable<Keep> GetKeep()
+        public List<Keep> GetKeep()
         {
-            return _context.Keep.Include(x => x.checklist);
+            return _context.Keep.Include(x => x.checklist).ToList();
         }
 
         // POST: api/keep
@@ -39,7 +39,8 @@ namespace GoogleKeepDB.Controllers
             _context.Keep.Add(keep);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetKeep", new { id = keep.keepID }, keep);
+            return Ok(keep);
+            // return CreatedAtAction("GetKeep", new { id = keep.keepID }, keep);
         }
 
         // GETByID: api/keep/id
@@ -63,14 +64,14 @@ namespace GoogleKeepDB.Controllers
 
         // GETBylabel: api/keep/label/{label}
         [HttpGet("label/{label}")]
-        public IActionResult GetKeepByLabel([FromRoute] string label)
+        public  async Task<IActionResult> GetKeepByLabel([FromRoute] string label)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var keep = _context.Keep.Include(x => x.checklist).ToList();
+            var keep = await _context.Keep.Include(x => x.checklist).ToListAsync();
 
             List<Keep> _keep = new List<Keep>();
 
@@ -91,14 +92,14 @@ namespace GoogleKeepDB.Controllers
 
         // GETBytitle: api/keep/title/{title}
         [HttpGet("title/{title}")]
-        public IActionResult GetKeepByTitle([FromRoute] string title)
+        public async Task<IActionResult> GetKeepByTitle([FromRoute] string title)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var keep = _context.Keep.Include(x => x.checklist).ToList();
+            var keep = await _context.Keep.Include(x => x.checklist).ToListAsync();
 
             List<Keep> _keep = new List<Keep>();
 
@@ -119,14 +120,14 @@ namespace GoogleKeepDB.Controllers
 
         // GETBypinned: api/keep/ispinned/{ispinned}
         [HttpGet("ispinned/{ispinned}")]
-        public IActionResult GetKeepByIsPinned([FromRoute] bool ispinned)
+        public async Task<IActionResult> GetKeepByIsPinned([FromRoute] bool ispinned)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var keep = _context.Keep.Include(x => x.checklist).ToList();
+            var keep = await _context.Keep.Include(x => x.checklist).ToListAsync();
 
             List<Keep> _keep = new List<Keep>();
 

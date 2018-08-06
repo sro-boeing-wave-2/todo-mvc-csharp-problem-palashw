@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleKeepDB", "GoogleKeepDB\GoogleKeepDB.csproj", "{36D60503-34D0-432B-9ECB-8EAC58A8E195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleKeepDB", "GoogleKeepDB\GoogleKeepDB.csproj", "{36D60503-34D0-432B-9ECB-8EAC58A8E195}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleDBNSuperTest", "XUnitTestProject1\GoogleDBNSuperTest.csproj", "{0DA0F40D-EB95-456A-B6D6-E34FAFEE43A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleDBInMemoryTest", "GoogleDBInMemoryTest\GoogleDBInMemoryTest.csproj", "{2B99B2EF-71C5-435A-B096-E561109396D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{36D60503-34D0-432B-9ECB-8EAC58A8E195}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36D60503-34D0-432B-9ECB-8EAC58A8E195}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36D60503-34D0-432B-9ECB-8EAC58A8E195}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA0F40D-EB95-456A-B6D6-E34FAFEE43A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA0F40D-EB95-456A-B6D6-E34FAFEE43A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA0F40D-EB95-456A-B6D6-E34FAFEE43A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA0F40D-EB95-456A-B6D6-E34FAFEE43A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B99B2EF-71C5-435A-B096-E561109396D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B99B2EF-71C5-435A-B096-E561109396D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B99B2EF-71C5-435A-B096-E561109396D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B99B2EF-71C5-435A-B096-E561109396D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
