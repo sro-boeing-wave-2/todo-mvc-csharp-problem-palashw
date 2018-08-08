@@ -22,9 +22,9 @@ namespace GoogleKeepDB.Controllers
         
         // GET: api/keep
         [HttpGet]
-        public List<Keep> GetKeep()
+        public async Task<List<Keep>> GetKeep()
         {
-            return _context.Keep.Include(x => x.checklist).ToList();
+            return await _context.Keep.Include(x => x.checklist).ToListAsync();
         }
 
         // POST: api/keep
@@ -166,7 +166,7 @@ namespace GoogleKeepDB.Controllers
             return Ok(keep);
         }
 
-        // PUTByID: api/Keeps/5
+        // PUTByID: api/keep/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutKeepByID([FromRoute] int id, [FromBody] Keep keep)
         {

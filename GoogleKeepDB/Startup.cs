@@ -39,8 +39,10 @@ namespace GoogleKeepDB
                     options.UseSqlServer(Configuration.GetConnectionString("KeepContext")));
             }
             else
+            {
                 services.AddDbContext<KeepContext>(options =>
-                    options.UseInMemoryDatabase(Configuration.GetConnectionString("InMemoryDB")));
+                                   options.UseInMemoryDatabase(/*Configuration.GetConnectionString(*/"InMemoryDB"/*)*/));
+            }
 
 
             services.AddSwaggerGen(c =>
