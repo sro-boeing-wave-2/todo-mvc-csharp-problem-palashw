@@ -22,7 +22,6 @@ namespace GoogleKeepDB
         {
             Configuration = configuration;
             _hostingenv = ihostingenv;
-
         }
 
         public IConfiguration Configuration { get; }
@@ -72,8 +71,6 @@ namespace GoogleKeepDB
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-
-            app.UseMvc();
 
             app.UseHttpsRedirection();
             app.UseMvc();

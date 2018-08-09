@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  googlekeepdb:
+    image: ${DOCKER_REGISTRY}googlekeepdb
+    build:
+      context: .
+      dockerfile: GoogleKeepDB\Dockerfile
+
+  googledbinmemorytest:
+    image: ${DOCKER_REGISTRY}googledbinmemorytest
+    build:
+      context: .
+      dockerfile: GoogleDBInMemoryTest\Dockerfile
+
