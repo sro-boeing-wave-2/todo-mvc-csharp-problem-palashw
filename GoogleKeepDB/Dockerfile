@@ -1,20 +1,17 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1709 AS base
+FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /app
-EXPOSE 55495
-EXPOSE 44379
 
-FROM microsoft/dotnet:2.1-sdk-nanoserver-1709 AS build
-WORKDIR /src
-COPY GoogleKeepDB/GoogleKeepDB.csproj GoogleKeepDB/
-RUN dotnet restore GoogleKeepDB/GoogleKeepDB.csproj
-COPY . .
-WORKDIR /src/GoogleKeepDB
-RUN dotnet build GoogleKeepDB.csproj -c Release -o /app
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish GoogleKeepDB.csproj -c Release -o /app
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
 
-FROM base AS final
+# Build runtime image
+FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
-COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "GoogleKeepDB.dll"]
+EXPOSE 80
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "GoogleKeepDB.dll"] #run

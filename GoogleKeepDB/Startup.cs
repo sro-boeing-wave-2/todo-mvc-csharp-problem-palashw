@@ -32,15 +32,15 @@ namespace GoogleKeepDB
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            if(_hostingenv.IsDevelopment())
+            if(_hostingenv.IsEnvironment("Testing"))
             {
                 services.AddDbContext<KeepContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("KeepContext")));
+                                   options.UseInMemoryDatabase("InMemoryDB"));
             }
             else
             {
                 services.AddDbContext<KeepContext>(options =>
-                                   options.UseInMemoryDatabase(/*Configuration.GetConnectionString(*/"InMemoryDB"/*)*/));
+                    options.UseSqlServer(Configuration.GetConnectionString("KeepContext"), dbOptions => dbOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null)));
             }
 
 
@@ -51,7 +51,7 @@ namespace GoogleKeepDB
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, KeepContext context)
         {
             if (env.IsDevelopment())
             {
@@ -62,6 +62,7 @@ namespace GoogleKeepDB
                 app.UseHsts();
             }
 
+            // swagger is used for testing apis intuitively
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
@@ -74,6 +75,13 @@ namespace GoogleKeepDB
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            // drop and recreate db each time docker is executed
+            if (env.IsDevelopment())
+            {
+                context.Database.Migrate();
+            }
+                
         }
     }
 }
