@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GoogleKeepDB.Model
 {
-    public class dataAcc
+    public class dataAcc : IService
     {
         MongoClient _client;
         MongoServer _server;
@@ -17,9 +17,9 @@ namespace GoogleKeepDB.Model
         public dataAcc()
         {
             _client = new MongoClient("mongodb://localhost:27017");
-#pragma warning disable CS0618 // Type or member is obsolete
+            #pragma warning disable CS0618 // Type or member is obsolete
             _server = _client.GetServer();
-#pragma warning restore CS0618 // Type or member is obsolete
+             #pragma warning restore CS0618 // Type or member is obsolete
             _db = _server.GetDatabase("Keep");
         }
 
